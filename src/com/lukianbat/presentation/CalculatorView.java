@@ -1,22 +1,19 @@
 package com.lukianbat.presentation;
 
-import com.lukianbat.domain.OnParsedExpression;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.List;
-
-import static com.lukianbat.domain.Calculator.calculateParsedExpression;
-import static com.lukianbat.domain.Calculator.parseExpression;
 
 public class CalculatorView extends JFrame {
 
     private boolean equalFlag = false;
     private JTextField calculatorField;
+    private CalculatorPresenter presenter;
 
-    public CalculatorView() {
+    public CalculatorView(CalculatorPresenter presenter) {
+        this.presenter = presenter;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("TestCFT");
         setSize(400, 250);
@@ -117,17 +114,7 @@ public class CalculatorView extends JFrame {
 
     private void equalsAction() {
         equalFlag = true;
-        parseExpression(calculatorField.getText(), new OnParsedExpression() {
-            @Override
-            public void onParsed(List<String> expression) {
-                calculatorField.setText(calculatorField.getText() + " = " + calculateParsedExpression(expression).toString());
-            }
-
-            @Override
-            public void onError(String message) {
-                calculatorField.setText(message);
-            }
-        });
+        presenter.getCurrent(calculatorField.getText(), message -> calculatorField.setText(message));
     }
 
     private void clearAction() {

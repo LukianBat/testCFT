@@ -8,7 +8,7 @@ public class Calculator {
     private static String delimiters = "() " + operators;
 
 
-    private static boolean isDelimiter(String string) {
+    private boolean isDelimiter(String string) {
         if (string.length() != 1) return false;
         for (int i = 0; i < delimiters.length(); i++) {
             if (string.charAt(0) == delimiters.charAt(i)) return true;
@@ -16,7 +16,7 @@ public class Calculator {
         return false;
     }
 
-    private static boolean isOperator(String string) {
+    private boolean isOperator(String string) {
         if (string.equals("u-")) return true;
         for (int i = 0; i < operators.length(); i++) {
             if (string.charAt(0) == operators.charAt(i)) return true;
@@ -24,7 +24,7 @@ public class Calculator {
         return false;
     }
 
-    private static boolean containCorrectSymbols(String string) {
+    private boolean containCorrectSymbols(String string) {
         for (int i = 0; i < string.length(); i++) {
             if (!Character.isDigit(string.charAt(i)) && !isDelimiter(String.valueOf(string.charAt(i)))
                     && !isOperator(String.valueOf(string.charAt(i))) && string.charAt(i) != '.')
@@ -34,14 +34,14 @@ public class Calculator {
     }
 
 
-    private static int priority(String token) {
+    private int priority(String token) {
         if (token.equals("(")) return 1;
         if (token.equals("+") || token.equals("-")) return 2;
         if (token.equals("*") || token.equals("/")) return 3;
         return 4;
     }
 
-    public static void parseExpression(String infix, OnParsedExpression callback) {
+    public void parseExpression(String infix, OnParsedExpressionCallback callback) {
         List<String> postfix = new ArrayList<>();
         Deque<String> stack = new ArrayDeque<>();
         StringTokenizer tokenizer = new StringTokenizer(infix, delimiters, true);
@@ -103,7 +103,7 @@ public class Calculator {
     }
 
 
-    public static Double calculateParsedExpression(List<String> postfix) {
+    public Double calculateParsedExpression(List<String> postfix) {
         Deque<Double> stack = new ArrayDeque<>();
         for (String x : postfix) {
             switch (x) {
