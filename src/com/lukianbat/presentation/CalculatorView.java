@@ -30,7 +30,7 @@ public class CalculatorView extends JFrame {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(5, 4));
         add(buttonPanel, BorderLayout.SOUTH);
-        for (int i = 0; i < 16; i++) {
+        for (int i = 0; i < 17; i++) {
             addButton(buttonPanel, i);
         }
 
@@ -95,6 +95,10 @@ public class CalculatorView extends JFrame {
             }
             case 15: {
                 symbol = ")";
+                break;
+            }
+            case 16: {
+                symbol = ".";
                 break;
             }
             default: {

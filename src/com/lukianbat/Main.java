@@ -8,6 +8,8 @@ import com.lukianbat.presentation.CalculatorView;
 public class Main {
 
     public static void main(String[] args) {
-        new CalculatorView(new CalculatorPresenter(new Calculator())).setVisible(true);
+        Calculator calculator = new Calculator();
+        CalculatorPresenter calculatorPresenter = new CalculatorPresenter(calculator);
+        new CalculatorView(calculatorPresenter).setVisible(true);
     }
 }
