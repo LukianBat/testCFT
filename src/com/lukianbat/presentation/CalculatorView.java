@@ -8,15 +8,33 @@ import java.awt.event.KeyListener;
 
 public class CalculatorView extends JFrame {
 
-    private boolean equalFlag = false;
+    private static String titleWindow = "TestCFT";
+    private static int widthWindow = 400;
+    private static int heightWindow = 250;
+    private static int textSize = 23;
+    private static int rows = 5;
+    private static int cols = 4;
+    private static int buttonsNumber = 17;
+    private static String clearSymbol = "C";
+    private static String clearText = "";
+    private static String equalsSymbol = "=";
+    private static String pointSymbol = ".";
+    private static String leftParenthesis = "(";
+    private static String rightParenthesis = ")";
+    private static String plusSymbol = "+";
+    private static String minusSymbol = "-";
+    private static String productSymbol = "*";
+    private static String divisionSymbol = "/";
+
+    private boolean isCalculated = false;
     private JTextField calculatorField;
     private CalculatorPresenter presenter;
 
     public CalculatorView(CalculatorPresenter presenter) {
         this.presenter = presenter;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("TestCFT");
-        setSize(400, 250);
+        setTitle(titleWindow);
+        setSize(widthWindow, heightWindow);
         setLocationRelativeTo(null);
         initView();
     }
@@ -25,22 +43,23 @@ public class CalculatorView extends JFrame {
         calculatorField = new JTextField();
         calculatorField.setHorizontalAlignment(JTextField.RIGHT);
         calculatorField.setEditable(true);
-        calculatorField.setFont(new Font("Serif", Font.BOLD, 23));
+        calculatorField.setFont(new Font("Serif", Font.BOLD, textSize));
         add(calculatorField, BorderLayout.CENTER);
+
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(5, 4));
+        buttonPanel.setLayout(new GridLayout(rows, cols));
         add(buttonPanel, BorderLayout.SOUTH);
-        for (int i = 0; i < 17; i++) {
+        for (int i = 0; i < buttonsNumber; i++) {
             addButton(buttonPanel, i);
         }
 
         JButton clearButton = new JButton();
-        clearButton.setText("C");
+        clearButton.setText(clearSymbol);
         clearButton.addActionListener(actionEvent -> clearAction());
         buttonPanel.add(clearButton);
 
         JButton equalsButton = new JButton();
-        equalsButton.setText("=");
+        equalsButton.setText(equalsSymbol);
         equalsButton.addActionListener(actionEvent -> equalsAction());
         buttonPanel.add(equalsButton);
 
@@ -74,42 +93,43 @@ public class CalculatorView extends JFrame {
         String symbol;
         switch (name) {
             case 10: {
-                symbol = "*";
+                symbol = productSymbol;
                 break;
             }
             case 11: {
-                symbol = "+";
+                symbol = plusSymbol;
                 break;
             }
             case 12: {
-                symbol = "-";
+                symbol = minusSymbol;
                 break;
             }
             case 13: {
-                symbol = "/";
+                symbol = divisionSymbol;
                 break;
             }
             case 14: {
-                symbol = "(";
+                symbol = leftParenthesis;
                 break;
             }
             case 15: {
-                symbol = ")";
+                symbol = rightParenthesis;
                 break;
             }
             case 16: {
-                symbol = ".";
+                symbol = pointSymbol;
                 break;
             }
             default: {
                 symbol = String.valueOf(name);
             }
         }
+
         button.setText(symbol);
         button.addActionListener(actionEvent -> {
-            if (equalFlag) {
+            if (isCalculated) {
                 clearAction();
-                equalFlag = false;
+                isCalculated = false;
             }
             calculatorField.setText(calculatorField.getText() + symbol);
         });
@@ -117,11 +137,12 @@ public class CalculatorView extends JFrame {
     }
 
     private void equalsAction() {
-        equalFlag = true;
-        presenter.getCurrent(calculatorField.getText(), message -> calculatorField.setText(message));
+        isCalculated = true;
+        String result = presenter.getResult(calculatorField.getText());
+        calculatorField.setText(result);
     }
 
     private void clearAction() {
-        calculatorField.setText("");
+        calculatorField.setText(clearText);
     }
 }
