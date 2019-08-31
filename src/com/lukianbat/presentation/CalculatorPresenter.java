@@ -12,10 +12,9 @@ public class CalculatorPresenter {
     }
 
     String getResult(String expression) {
-
         try {
             Double result = calculator.getResult(expression);
-            return expression + " = " + result.toString();
+            return result.toString();
         } catch (Exception e) {
             return e.getMessage();
         }

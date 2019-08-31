@@ -71,6 +71,10 @@ public class CalculatorView extends JFrame {
 
             @Override
             public void keyPressed(KeyEvent keyEvent) {
+                if (isCalculated) {
+                    clearAction();
+                    isCalculated = false;
+                }
                 switch (keyEvent.getKeyCode()) {
                     case KeyEvent.VK_ENTER: {
                         equalsAction();
@@ -138,8 +142,9 @@ public class CalculatorView extends JFrame {
 
     private void equalsAction() {
         isCalculated = true;
-        String result = presenter.getResult(calculatorField.getText());
-        calculatorField.setText(result);
+        String expression = calculatorField.getText();
+        String result = presenter.getResult(expression);
+        calculatorField.setText(expression + " = " + result);
     }
 
     private void clearAction() {
