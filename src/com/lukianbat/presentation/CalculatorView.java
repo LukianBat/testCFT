@@ -63,7 +63,7 @@ public class CalculatorView extends JFrame {
         equalsButton.addActionListener(actionEvent -> equalsAction());
         buttonPanel.add(equalsButton);
 
-        addKeyListener(new KeyListener() {
+        calculatorField.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent keyEvent) {
 
@@ -78,9 +78,11 @@ public class CalculatorView extends JFrame {
                 switch (keyEvent.getKeyCode()) {
                     case KeyEvent.VK_ENTER: {
                         equalsAction();
+                        break;
                     }
                     case KeyEvent.VK_DELETE: {
                         clearAction();
+                        break;
                     }
                 }
             }
